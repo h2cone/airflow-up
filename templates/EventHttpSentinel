@@ -1,0 +1,15 @@
+<t.taskId> = SimpleHttpSentinel(
+    task_id='<t.taskId>',
+    http_conn_id='<t.httpConnId>',
+    endpoint='<t.endpoint>',
+    method='<t.method>',
+    <if(t.data)>data="{{ dag_run.conf['<t.taskId>']['data'] <if(t.dataFilter)><t.dataFilter><endif> }}",<endif>
+    <if(t.headers)>headers=<t.headers>,<endif>
+    <if(t.responseCheck)>response_check=<t.responseCheck>,<endif>
+    <if(t.responseFilter)>response_filter=<t.responseFilter>,<endif>
+    <if(t.extraOptions)>extra_options=<t.extraOptions>,<endif>
+    <if(logResponse)>log_response=<logResponse>,<endif>
+    <if(t.retries)>retries=<t.retries>,<endif>
+    dag=dag,
+)
+

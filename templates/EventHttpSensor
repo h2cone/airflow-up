@@ -1,0 +1,14 @@
+<t.taskId> = HttpSensor(
+    task_id='<t.taskId>',
+    http_conn_id='<t.httpConnId>',
+    <if(t.method)>method='<t.method>',<endif>
+    endpoint='<t.endpoint>',
+    <if(t.requestParams)>request_params="{{ dag_run.conf['<t.taskId>']['data'] }}",<endif>
+    <if(t.headers)>headers=<t.headers>,<endif>
+    <if(t.responseCheck)>response_check=<t.responseCheck>,<endif>
+    <if(t.extraOptions)>extra_options=<t.extraOptions>,<endif>
+    <if(t.pokeInterval)>poke_interval=<t.pokeInterval>,<endif>
+    <if(t.timeout)>timeout=<t.timeout>,<endif>
+    dag=dag,
+)
+

@@ -1,0 +1,34 @@
+default_args = {
+    'owner': '<if(d.owner)><d.owner><else>airflow<endif>',
+    'depends_on_past': <if(dependsOnPast)><dependsOnPast><else>False<endif>,
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': <if(d.retries)><d.retries><else>1<endif>,
+    'retry_delay': <if(d.retryDelay)><d.retryDelay><else>timedelta(milliseconds=3000)<endif>,
+    # 'queue': 'bash_queue',
+    # 'pool': 'backfill',
+    # 'priority_weight': 10,
+    # 'end_date': datetime(2016, 1, 1),
+    # 'wait_for_downstream': False,
+    # 'dag': dag,
+    # 'sla': timedelta(hours=2),
+    # 'execution_timeout': timedelta(seconds=300),
+    # 'on_failure_callback': some_function,
+    # 'on_success_callback': some_other_function,
+    # 'on_retry_callback': another_function,
+    # 'sla_miss_callback': yet_another_function,
+    'trigger_rule': '<if(d.triggerRule)><d.triggerRule><else>all_success<endif>'
+}
+
+dag = DAG(
+    '<d.dagId>',
+    <if(d.description)>description='<d.description>',<endif>
+    <if(d.scheduleInterval)>schedule_interval=<d.scheduleInterval><else>schedule_interval=None<endif>,
+    <if(d.startDate)>start_date=<d.startDate><else>start_date=days_ago(2)<endif>,
+    <if(d.onSuccessCallback)>on_success_callback=<d.onSuccessCallback><endif>,
+    <if(d.onFailureCallback)>on_failure_callback=<d.onFailureCallback><endif>,
+    default_args=default_args,
+    <if(tags)>tags=<tags>,<endif>
+)
+
