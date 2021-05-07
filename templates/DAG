@@ -1,6 +1,6 @@
 default_args = {
     'owner': '<if(d.owner)><d.owner><else>airflow<endif>',
-    'depends_on_past': <if(dependsOnPast)><dependsOnPast><else>False<endif>,
+    'depends_on_past': <if(d.dependsOnPast)><d.dependsOnPast><else>False<endif>,
     'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -29,6 +29,6 @@ dag = DAG(
     <if(d.onSuccessCallback)>on_success_callback=<d.onSuccessCallback><endif>,
     <if(d.onFailureCallback)>on_failure_callback=<d.onFailureCallback><endif>,
     default_args=default_args,
-    <if(tags)>tags=<tags>,<endif>
+    <if(d.tags)>tags=<d.tags>,<endif>
 )
 
