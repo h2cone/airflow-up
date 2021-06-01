@@ -1,4 +1,5 @@
 import json
+import logging
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -12,4 +13,6 @@ from airflow.utils.dates import days_ago
 from airflow import AirflowException
 
 from operators.simple_http_sentinel import SimpleHttpSentinel
+from operators.extended_http_operator import ExtendedHttpOperator
+from operators.extended_http_sentinel import ExtendedHttpSentinel
 

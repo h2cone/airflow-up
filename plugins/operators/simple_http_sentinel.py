@@ -7,6 +7,7 @@ from airflow.models import BaseOperator
 from airflow.providers.http.hooks.http import HttpHook
 from airflow.utils.decorators import apply_defaults
 
+
 class SimpleHttpSentinel(BaseOperator):
     """
     Calls an endpoint on an HTTP system to execute an action
@@ -45,28 +46,28 @@ class SimpleHttpSentinel(BaseOperator):
     :param auth_type: The auth type for the service
     :type auth_type: AuthBase of python requests lib
     """
-    
+
     template_fields = [
-        'endpoint',
-        'data',
-        'headers',
+        "endpoint",
+        "data",
+        "headers",
     ]
-    template_fields_renderers = {'headers': 'json', 'data': 'py'}
+    template_fields_renderers = {"headers": "json", "data": "py"}
     template_ext = ()
-    ui_color = '#ffff00'
+    ui_color = "#ffff00"
 
     @apply_defaults
     def __init__(
         self,
         *,
         endpoint: Optional[str] = None,
-        method: str = 'POST',
+        method: str = "POST",
         data: Any = None,
         headers: Optional[Dict[str, str]] = None,
         response_check: Optional[Callable[..., bool]] = None,
         response_filter: Optional[Callable[..., Any]] = None,
         extra_options: Optional[Dict[str, Any]] = None,
-        http_conn_id: str = 'http_default',
+        http_conn_id: str = "http_default",
         log_response: bool = False,
         **kwargs: Any,
     ) -> None:
@@ -80,8 +81,10 @@ class SimpleHttpSentinel(BaseOperator):
         self.response_filter = response_filter
         self.extra_options = extra_options or {}
         self.log_response = log_response
-        if kwargs.get('xcom_push') is not None:
-            raise AirflowException("'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
+        if kwargs.get("xcom_push") is not None:
+            raise AirflowException(
+                "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead"
+            )
 
     def execute(self, context: Dict[str, Any]) -> Any:
         from airflow.utils.operator_helpers import make_kwargs_callable
