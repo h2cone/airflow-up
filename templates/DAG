@@ -21,8 +21,10 @@ default_args = {
     'trigger_rule': '<if(d.triggerRule)><d.triggerRule><else>all_success<endif>'
 }
 
+DAG_ID = '<d.dagId>'
+
 dag = DAG(
-    '<d.dagId>',
+    DAG_ID,
     <if(d.description)>description='<d.description>',<endif>
     <if(d.scheduleInterval)>schedule_interval=<d.scheduleInterval><else>schedule_interval=None<endif>,
     <if(d.startDate)>start_date=<d.startDate><else>start_date=days_ago(2)<endif>,
