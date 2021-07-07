@@ -5,7 +5,7 @@ default_args = {
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': <if(d.retries)><d.retries><else>1<endif>,
-    'retry_delay': <if(d.retryDelay)><d.retryDelay><else>timedelta(milliseconds=3000)<endif>,
+    'retry_delay': <if(d.retryDelay)><d.retryDelay><else>timedelta(seconds=5)<endif>,
     # 'queue': 'bash_queue',
     # 'pool': 'backfill',
     # 'priority_weight': 10,
@@ -28,8 +28,8 @@ dag = DAG(
     <if(d.description)>description='<d.description>',<endif>
     <if(d.scheduleInterval)>schedule_interval=<d.scheduleInterval><else>schedule_interval=None<endif>,
     <if(d.startDate)>start_date=<d.startDate><else>start_date=days_ago(2)<endif>,
-    <if(d.onSuccessCallback)>on_success_callback=<d.onSuccessCallback><endif>,
-    <if(d.onFailureCallback)>on_failure_callback=<d.onFailureCallback><endif>,
+    <if(d.onSuccessCallback)>on_success_callback=<d.onSuccessCallback>,<endif>
+    <if(d.onFailureCallback)>on_failure_callback=<d.onFailureCallback>,<endif>
     default_args=default_args,
     <if(d.tags)>tags=<d.tags>,<endif>
 )

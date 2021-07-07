@@ -1,15 +1,16 @@
-<t.taskId> = SimpleHttpSentinel(
+<t.taskId> = ExtendedHttpOperator(
     task_id='<t.taskId>',
     http_conn_id='<t.httpConnId>',
     endpoint='<t.endpoint>',
     method='<t.method>',
-    <if(t.data)>data="{{ dag_run.conf['opToPayload']['<t.taskId>']['data'] <if(t.dataFilter)><t.dataFilter><endif> }}",<endif>
+    <if(t.dataFn)>data_fn=<t.dataFn>,<endif>
     <if(t.headers)>headers=<t.headers>,<endif>
     <if(t.responseCheck)>response_check=<t.responseCheck>,<endif>
     <if(t.responseFilter)>response_filter=<t.responseFilter>,<endif>
     <if(t.extraOptions)>extra_options=<t.extraOptions>,<endif>
     <if(logResponse)>log_response=<logResponse>,<endif>
-    <if(t.retries)>retries=<t.retries>,<endif>
+    <if(t.onSuccessCallback)>on_success_callback=<t.onSuccessCallback>,<endif>
+    <if(t.onFailureCallback)>on_failure_callback=<t.onFailureCallback>,<endif>
     dag=dag,
 )
 

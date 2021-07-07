@@ -3,7 +3,7 @@
     http_conn_id='<t.httpConnId>',
     <if(t.method)>method='<t.method>',<endif>
     endpoint='<t.endpoint>',
-    <if(t.requestParams)>request_params="{{ dag_run.conf['<t.taskId>']['data'] }}",<endif>
+    <if(t.requestParams)>request_params="{{ dag_run.conf['opToPayload']['<t.taskId>']['data'] }}",<endif>
     <if(t.headers)>headers=<t.headers>,<endif>
     <if(t.responseCheck)>response_check=<t.responseCheck>,<endif>
     <if(t.extraOptions)>extra_options=<t.extraOptions>,<endif>

@@ -1,5 +1,6 @@
 <t.taskId> = DummyOperator(
     task_id='<t.taskId>',
+    <if(t.triggerRule)>trigger_rule='<t.triggerRule>',<endif>
     dag=dag,
 )
 
