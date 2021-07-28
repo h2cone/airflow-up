@@ -28,7 +28,10 @@ def request_data_fn(**context):
                     for cond in conditions:
                         variable = cond["variable"]
                         value = cond["judgeField"]
-                        value = value if value else "null"
+                        if value is None or isinstance(value, bool):
+                            value = json.dumps(value)
+                        else:
+                            value = str(value)
                         expr = expr.replace(variable, value)
                     data["expresses"] = [expr]
 
@@ -40,23 +43,41 @@ def request_data_fn(**context):
         "tianjiIntel",
         "customTable",
         "activityList",
+        "script",
+        "email",
         "lvmengAds",
         "lvmengLeakScan",
     ]:
         values = []
         params = data["execParams"]
-        for param in params:
-            src = param["src"]
-            if "event" == src:
-                name = param["name"]
-                value = event.get(name)
-                values.append(value)
-            else:
-                value = get_value(ti, param, conf)
-                values.append(value)
-        data["executionParams"] = values
-        data["keywords"] = values
-        data["ips"] = values
+        if params:
+            for param in params:
+                src = param["src"]
+                if "event" == src:
+                    name = param["name"]
+                    value = event.get(name)
+                    values.append(value)
+                else:
+                    value = get_value(ti, param, conf)
+                    values.append(value)
+            data["executionParams"] = values
+            data["keywords"] = values
+            data["ips"] = values
+            if "email" == type:
+                content = data["email"]["content"]
+                if content:
+                    for idx, param in enumerate(params):
+                        variable = param["variable"]
+                        if not variable:
+                            continue
+                        value = values[idx] if idx < len(values) else None
+                        param["_value"] = value
+                        if value is None or isinstance(value, bool):
+                            value = json.dumps(value)
+                        else:
+                            value = str(value)
+                        content = content.replace(variable, value)
+                    data["email"]["content"] = content
     else:
         logging.warning(
             "faield to request_data_fn, type: %s, task_id: %s", type, task_id
@@ -81,6 +102,9 @@ def get_value(ti, param, conf):
         if isinstance(value, dict):
             return value.get(prev_field_name)
         elif isinstance(value, list):
+            if len(value) == 1:
+                v = value[0]
+                return v.get(prev_field_name) if v else None
             return json.dumps(
                 list(map(lambda v: v.get(prev_field_name) if v else None, value))
             )
