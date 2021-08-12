@@ -1,4 +1,3 @@
-
 def request_data_fn(**context):
     ti = context["ti"]
     task_id = ti.task_id
