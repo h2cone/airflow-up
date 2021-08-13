@@ -1,5 +1,6 @@
-dags/
+dags
 logs
 plugins/operators/__pycache__
 docker-compose.yaml
 update.sh
+templates/func/deprecated

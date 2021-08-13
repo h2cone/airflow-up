@@ -1,6 +1,0 @@
-def review_response_check(response):
-    data = response.json()['data']
-    if 'not_pass' == data or 'expired' == data:
-        raise AirflowException(data) 
-    return 'pass' == data
-
