@@ -28,7 +28,7 @@ class ExtendedHttpOperator(SimpleHttpOperator):
         http = HttpHook(self.method, http_conn_id=self.http_conn_id)
 
         self.log.info("Calling HTTP method")
-        self.log.info("The data to pass: {}".format(data))
+        self.log.info("The data to pass: %s", data.encode("utf-8").decode("unicode_escape") if type(data) is str else data)
 
         response = http.run(self.endpoint, data, self.headers, self.extra_options)
         if self.log_response:
